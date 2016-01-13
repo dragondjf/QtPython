@@ -21,7 +21,7 @@ using namespace std;
 #define  SAFE_SPRINTF   snprintf
 #endif
 
-
+#define UNUSED(x) (void)x;
 
 //! 获取python异常信息
 struct pyops_t
@@ -1073,6 +1073,7 @@ public:
 
     virtual int parse_value(PyObject *pvalue_)
     {
+        UNUSED(pvalue_);
         return 0;
     }
 

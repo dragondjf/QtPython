@@ -10,6 +10,14 @@ class PythonManager : public QObject
 public:
     explicit PythonManager(QObject *parent = 0);
     ~PythonManager();
+    static void initPython();
+    void registerLogger();
+    static int debug(const string& val_1);
+    void testGetGlobalVar();
+    void testSetGlobalVar();
+    void testCallModuleMethodNoArgs();
+    void testCallModuleMethodWidthArgs();
+    void testCallRetunJson();
 
 signals:
 

@@ -31,7 +31,7 @@ struct pyext_tool_t
     template<typename T>
     pyext_tool_t& parse_arg(T& ret_arg_)
     {
-        typedef typename type_ref_traits_t<T>::value_t value_t;
+//        typedef typename type_ref_traits_t<T>::value_t value_t;
         if (false == m_err)
         {
             if (m_index >= m_size)
@@ -376,6 +376,7 @@ struct pyext_func_traits_t<RET (*)(ARG1)>
     }
     static PyObject* pyfunc(PyObject* self, PyObject* args)
     {
+        UNUSED(self);
         pyext_tool_t pyext_tool(args);
         if (pyext_tool.is_err())
         {

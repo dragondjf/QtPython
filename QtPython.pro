@@ -28,6 +28,12 @@ SOURCES += \
     main.cpp \
     controllers/pythonmanager.cpp
 
+DISTFILES += \
+    main.py
+
+RESOURCES += \
+    python.qrc
+
 
 
 
