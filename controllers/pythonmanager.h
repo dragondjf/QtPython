@@ -2,6 +2,7 @@
 #define PYTHONMANAGER_H
 
 #include <QObject>
+#include <QJsonObject>
 #include "../thirdparty/ffpython/ffpython.h"
 
 class PythonManager : public QObject
@@ -13,6 +14,13 @@ public:
     static void initPython();
     void registerLogger();
     static int debug(const string& val_1);
+    static int info(const string& val_1);
+    static int warning(const string& val_1);
+    static int error(const string& val_1);
+    static int fatal(const string& val_1);
+    QJsonObject callPythonApi(const string module, const string method, const string jsonArgs="");
+    QJsonObject callPythonApi(const char* module, const char* method, const char* jsonArgs="");
+    QJsonObject callPythonApi(const QString& module, const QString& method, const QString& jsonArgs="");
     void testGetGlobalVar();
     void testSetGlobalVar();
     void testCallModuleMethodNoArgs();

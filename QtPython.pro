@@ -32,7 +32,7 @@ DISTFILES += \
     main.py
 
 RESOURCES += \
-    python.qrc
+    skin.qrc
 
 
 

@@ -10,6 +10,7 @@ class LogManager
 {
 public:
     void initConsoleAppender();
+    void initPythonCategoryAppender();
     void initRollingFileAppender();
 
     inline static LogManager* instance(){
@@ -29,7 +30,9 @@ private:
     QString m_format;
     QString m_logPath;
     ConsoleAppender* m_consoleAppender;
+    ConsoleAppender* m_pythonCategoryAppender;
     RollingFileAppender* m_rollingFileAppender;
+    RollingFileAppender* m_pythonCategoryRollingFileAppender;
 
 
     explicit LogManager();

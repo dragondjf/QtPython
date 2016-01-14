@@ -2,7 +2,11 @@
 #include <QDir>
 #include <QDebug>
 #include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
 #include <QJsonParseError>
+#include "logmanager.h"
+#include "Logger.h"
 
 PythonManager::PythonManager(QObject *parent) :
     QObject(parent)
@@ -37,13 +41,64 @@ void PythonManager::initPython()
 void PythonManager::registerLogger()
 {
     m_ffpython->reg(&PythonManager::debug, "debug");
-    m_ffpython->init("logger", "use qDebug in python");
+    m_ffpython->reg(&PythonManager::info, "info");
+    m_ffpython->reg(&PythonManager::warning, "warning");
+    m_ffpython->reg(&PythonManager::error, "error");
+    m_ffpython->reg(&PythonManager::fatal, "fatal");
+    m_ffpython->init("qtlogger", "use qDebug in python");
 }
 
 int PythonManager::debug(const string &val_1)
 {
-    qDebug() << val_1.c_str();
+    LOG_CDEBUG("python") << val_1.c_str();
     return 0;
+}
+
+int PythonManager::info(const string &val_1)
+{
+    LOG_CINFO("python") << val_1.c_str();
+    return 0;
+}
+
+int PythonManager::warning(const string &val_1)
+{
+    LOG_CWARNING("python") << val_1.c_str();
+    return 0;
+}
+
+int PythonManager::error(const string &val_1)
+{
+    LOG_CERROR("python") << val_1.c_str();
+    return 0;
+}
+
+int PythonManager::fatal(const string &val_1)
+{
+    LOG_CFATAL("python") << val_1.c_str();
+    return 0;
+}
+
+QJsonObject PythonManager::callPythonApi(const string module, const string method, const string jsonArgs)
+{
+    QJsonObject messageObj{};
+    string ret = m_ffpython->call<string>(module, method, jsonArgs);
+    qDebug() << ret.c_str();
+    QJsonParseError* error = new QJsonParseError();
+    messageObj = QJsonDocument::fromJson(QByteArray(ret.c_str()), error).object();
+    if (error->error != QJsonParseError::NoError){
+        qDebug() << error->errorString();
+    }
+    return messageObj;
+}
+
+QJsonObject PythonManager::callPythonApi(const char* module, const char* method, const char* jsonArgs)
+{
+    return callPythonApi(string(module), string(method), string(jsonArgs));
+}
+
+QJsonObject PythonManager::callPythonApi(const QString &module, const QString &method, const QString &jsonArgs)
+{
+    return callPythonApi(module.toStdString(), method.toStdString(), jsonArgs.toStdString());
 }
 
 void PythonManager::testGetGlobalVar()
@@ -82,17 +137,16 @@ void PythonManager::testCallModuleMethodWidthArgs()
 
 void PythonManager::testCallRetunJson()
 {
-    vector<int> a1;
-    a1.push_back(100);
-    a1.push_back(200);
-    list<string> a2;
-    a2.push_back("Oh");
-    a2.push_back("Nice");
-    vector<list<string> > a3;
-    a3.push_back(a2);
-    const char* ret = m_ffpython->call<string>("main", "returnJson", a1, a2, a3, a3).c_str();
-    qDebug() << ret;
-    QJsonParseError* error = new QJsonParseError();
-    QJsonObject messageObj = QJsonDocument::fromJson(QByteArray(ret), error).object();
-    qDebug() << messageObj << error->errorString();
+    QJsonObject args;
+    args.insert("a1", "1111");
+    QVariantList a2{1, 2, 3 ,4};
+    args.insert("a2", QJsonValue(QJsonArray::fromVariantList(a2)));
+    QMap<QString, QVariant> a3;
+    a3.insert("a", "ddasdsds");
+    a3.insert("b", a2);
+    args.insert("a3", QJsonValue::fromVariant(a3));
+    args.insert("a4", QJsonValue::fromVariant(a3));
+    QString jsonArgs = QString(QJsonDocument(args).toJson());
+//    qDebug() << jsonArgs;
+    callPythonApi("main", "returnJson", jsonArgs);
 }
