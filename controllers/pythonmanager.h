@@ -33,6 +33,7 @@ public slots:
 
 private:
     ffpython_t* m_ffpython=NULL;
+    ffpython_t* m_ffpython2=NULL;
 };
 
 #endif // PYTHONMANAGER_H

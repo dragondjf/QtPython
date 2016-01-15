@@ -1,13 +1,14 @@
 #include "pyobjectcontroller.h"
 #include "../thirdparty/ffpython/ffpython.h"
+#include "app/global.h"
 #include <QDebug>
 
 
-PyObjectController::PyObjectController(const int obj, QObject *parent) :
+PyObjectController::PyObjectController(const int& v, QObject *parent) :
     QObject(parent),
-    m_obj(obj)
+    m_obj(v)
 {
-
+    connect(signalManager, SIGNAL(requestObjChanged(int)), this, SLOT(setObj(int)));
 }
 
 PyObjectController::~PyObjectController()
@@ -23,8 +24,6 @@ void PyObjectController::registerToPython(ffpython_t& ffpython)
                 .reg(&PyObjectController::testStl, "testStl")
                 .reg(&PyObjectController::getInstance, "getInstance")
                 .reg_property(&PyObjectController::m_obj, "m_obj");
-    ffpython.init("QtCore");
-    ffpython.set_global_var("QtCore", "pyobjInstance", PyObjectController::instance(100));
 }
 
 int PyObjectController::getObj()

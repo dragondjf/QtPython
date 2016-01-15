@@ -9,7 +9,7 @@ class PyObjectController : public QObject
 {
     Q_OBJECT
 public:
-    explicit PyObjectController(const int obj, QObject *parent = 0);
+    explicit PyObjectController(const int& v, QObject *parent = 0);
     ~PyObjectController();
 
     inline static PyObjectController* instance(int v){

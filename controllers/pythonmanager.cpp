@@ -17,6 +17,7 @@ PythonManager::PythonManager(QObject *parent) :
 {
     initPython();
     m_ffpython = new ffpython_t;
+    m_ffpython2 = new ffpython_t;
     registerLogger();
     testGetGlobalVar();
     testSetGlobalVar();
@@ -51,6 +52,13 @@ void PythonManager::registerLogger()
     m_ffpython->reg(&PythonManager::error, "error");
     m_ffpython->reg(&PythonManager::fatal, "fatal");
     m_ffpython->init("qtlogger", "use qDebug in python");
+
+    m_ffpython2->reg(&PythonManager::debug, "debug");
+    m_ffpython2->reg(&PythonManager::info, "info");
+    m_ffpython2->reg(&PythonManager::warning, "warning");
+    m_ffpython2->reg(&PythonManager::error, "error");
+    m_ffpython2->reg(&PythonManager::fatal, "fatal");
+    m_ffpython2->init("qtlogger", "use qDebug in python");
 }
 
 int PythonManager::debug(const string &val_1)
@@ -158,7 +166,11 @@ void PythonManager::testCallRetunJson()
 
 void PythonManager::testRegisterClass()
 {
-    PyObjectController::registerToPython(*m_ffpython);
+    PyObjectController::registerToPython(*m_ffpython2);
+    m_ffpython2->init("QtCore2");
     SignalManager::registerToPython(*m_ffpython);
+    m_ffpython->init("QtCore");
+    m_ffpython->set_global_var("QtCore", "pyobjInstance", PyObjectController::instance(100));
+    m_ffpython->set_global_var("QtCore", "signalManager", SignalManager::instance());
     m_ffpython->call<void>("main", "testClass");
 }

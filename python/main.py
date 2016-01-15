@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 import json
 import qtlogger
 import logging
@@ -13,20 +12,24 @@ def debug(*args):
     ret = " ".join(messages)
     qtlogger.debug(ret)
 
+
 def info(*args):
     messages = [unicode(arg) for arg in args]
     ret = " ".join(messages)
     qtlogger.info(ret)
+
 
 def warning(*args):
     messages = [unicode(arg) for arg in args]
     ret = " ".join(messages)
     qtlogger.warning(ret)
 
+
 def error(*args):
     messages = [unicode(arg) for arg in args]
     ret = " ".join(messages)
     qtlogger.error(ret)
+
 
 def fatal(*args):
     messages = [unicode(arg) for arg in args]
@@ -34,9 +37,7 @@ def fatal(*args):
     qtlogger.fatal(ret)
 
 
-
 class QtPythonRootLogger(RootLogger):
-
     def __init__(self, level):
         super(QtPythonRootLogger, self).__init__(level)
 
@@ -56,44 +57,52 @@ class QtPythonRootLogger(RootLogger):
         elif record.levelno == logging.FATAL:
             fatal(fmtMessage)
 
+
 logging.root = QtPythonRootLogger(logging.DEBUG)
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s [%(levelname)7s] [%(pathname)s%(lineno)06s] %(message)s')
+formatter = logging.Formatter(
+    '%(asctime)s [%(levelname)7s] [%(pathname)s%(lineno)06s] %(message)s')
 ch.setFormatter(formatter)
 logger = logging.root
 logger.propagate = 0
 logger.addHandler(ch)
 
-
 logger.info("======1=======")
 
 
-def test_base(a1, a2 ,a3):
+def test_base(a1, a2, a3):
     logger.info(a1)
     return 0
 
+
 def returnJson(args):
     logger.warning(args)
-    obj = {
-        "a1": "a1",
-        "a2": "a2",
-        "a3": "a3",
-        "a4": "a4"
-    }
+    obj = {"a1": "a1", "a2": "a2", "a3": "a3", "a4": "a4"}
     ret = json.dumps(obj)
     logger.error("dssssssssssssssss")
     return ret
 
+
 def testClass():
-    import QtCore
-    from QtCore import PyObjectController
-    logger.info(dir(PyObjectController))
-    pyObj = QtCore.pyobjInstance
-    logger.info(pyObj)
-    logger.info(pyObj)
-    # logger.info(pyObj.m_obj)
-    # logger.info(pyObj.getObj())
-    # pyObj.setObj(1000)
-    # logger.info(pyObj.getObj())
-    # pyObj.testStl(10000)
+    logger.info(dir(__package__))
+    try:
+        import QtCore
+        logger.info(dir(QtCore))
+    except Exception, e:
+        logger.info(e)
+
+    try:
+        import QtCore2
+        logger.info(dir(QtCore2))
+    except Exception, e:
+        logger.info(e)
+
+    try:
+        from QtCore import signalManager, pyobjInstance
+        logger.info(dir(signalManager))
+        logger.info(dir(pyobjInstance))
+        signalManager.requestObjChanged(11150000)
+        logger.info(pyobjInstance.getObj())
+    except Exception, e:
+        logger.info(e)

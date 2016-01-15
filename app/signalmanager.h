@@ -7,9 +7,8 @@ class ffpython_t;
 class SignalManager : public QObject
 {
     Q_OBJECT
-
 public:
-    SignalManager();
+    explicit SignalManager(QObject *parent = 0);
     ~SignalManager();
 
     inline static SignalManager* instance(){
@@ -18,9 +17,9 @@ public:
     }
 
     static void registerToPython(ffpython_t& ffpython);
-signals:
 
-public slots:
+signals:
+    void requestObjChanged(const int& v);
 };
 
 #endif // SIGNALMANAGER_H
