@@ -18,15 +18,21 @@ DEFINES += QT_MESSAGELOGCONTEXT
 
 include(./thirdparty/cutelogger/cutelogger.pri)
 include(./thirdparty/ffpython/ffpython.pri)
+include(./thirdparty/utils/utils.pri)
 
 HEADERS += \
     views/mainwindow.h \
-    controllers/pythonmanager.h
+    controllers/pythonmanager.h \
+    controllers/pyobjectcontroller.h \
+    app/global.h \
+    app/signalmanager.h
 
 SOURCES += \
     views/mainwindow.cpp \
     main.cpp \
-    controllers/pythonmanager.cpp
+    controllers/pythonmanager.cpp \
+    controllers/pyobjectcontroller.cpp \
+    app/signalmanager.cpp
 
 DISTFILES += \
     main.py

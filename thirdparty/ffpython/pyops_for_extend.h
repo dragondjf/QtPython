@@ -725,6 +725,8 @@ struct pyclass_ctor_tool_t<CLASS_TYPE, int(*)()>
     typedef typename pyclass_base_info_t<CLASS_TYPE>::obj_data_t obj_data_t;
     static int init_obj(obj_data_t *self, PyObject *args, PyObject *kwds)
     {
+        UNUSED(args);
+        UNUSED(kwds);
         if (self->obj) return 0;
 
         self->obj = new CLASS_TYPE();
@@ -738,6 +740,7 @@ struct pyclass_ctor_tool_t<CLASS_TYPE, int(*)(ARG1)>
     typedef typename pyclass_base_info_t<CLASS_TYPE>::obj_data_t obj_data_t;
     static int init_obj(obj_data_t *self, PyObject *args, PyObject *kwds)
     {
+        UNUSED(kwds);
         if (self->obj) return 0;
         pyext_tool_t pyext_tool(args);
         if (pyext_tool.is_err())

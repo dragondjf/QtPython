@@ -329,11 +329,14 @@ struct pyclass_base_info_t
 
     static PyObject *alloc_obj(PyTypeObject *type, PyObject *args, PyObject *kwds)
     {
+        UNUSED(args);
+        UNUSED(kwds);
         obj_data_t *self = (obj_data_t *)type->tp_alloc(type, 0);
         return (PyObject *)self;
     }
         static PyObject *release(PyTypeObject *type, PyObject *args)
     {
+        UNUSED(args);
         obj_data_t *self = (obj_data_t *)type;
         self->release();
         return Py_BuildValue("i", 1);

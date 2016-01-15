@@ -84,3 +84,16 @@ def returnJson(args):
     ret = json.dumps(obj)
     logger.error("dssssssssssssssss")
     return ret
+
+def testClass():
+    import QtCore
+    from QtCore import PyObjectController
+    logger.info(dir(PyObjectController))
+    pyObj = QtCore.pyobjInstance
+    logger.info(pyObj)
+    logger.info(pyObj)
+    # logger.info(pyObj.m_obj)
+    # logger.info(pyObj.getObj())
+    # pyObj.setObj(1000)
+    # logger.info(pyObj.getObj())
+    # pyObj.testStl(10000)

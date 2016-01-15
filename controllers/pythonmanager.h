@@ -26,7 +26,7 @@ public:
     void testCallModuleMethodNoArgs();
     void testCallModuleMethodWidthArgs();
     void testCallRetunJson();
-
+    void testRegisterClass();
 signals:
 
 public slots:

@@ -7,6 +7,10 @@
 #include <QJsonParseError>
 #include "logmanager.h"
 #include "Logger.h"
+#include "pyobjectcontroller.h"
+#include "app/signalmanager.h"
+
+
 
 PythonManager::PythonManager(QObject *parent) :
     QObject(parent)
@@ -19,6 +23,7 @@ PythonManager::PythonManager(QObject *parent) :
     testCallModuleMethodNoArgs();
     testCallModuleMethodWidthArgs();
     testCallRetunJson();
+    testRegisterClass();
 }
 
 PythonManager::~PythonManager()
@@ -149,4 +154,11 @@ void PythonManager::testCallRetunJson()
     QString jsonArgs = QString(QJsonDocument(args).toJson());
 //    qDebug() << jsonArgs;
     callPythonApi("main", "returnJson", jsonArgs);
+}
+
+void PythonManager::testRegisterClass()
+{
+    PyObjectController::registerToPython(*m_ffpython);
+    SignalManager::registerToPython(*m_ffpython);
+    m_ffpython->call<void>("main", "testClass");
 }
