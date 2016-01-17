@@ -8,8 +8,17 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-PKGCONFIG += python-2.7
-CONFIG += c++11 link_pkgconfig
+
+win32 {
+    INCLUDEPATH += C:/Python27/include
+    LIBS += "C:/Python27/libs/libpython27.a"
+}
+unix {
+    PKGCONFIG += python-2.7
+    CONFIG += link_pkgconfig
+}
+
+CONFIG += c++11
 
 TARGET = QtPython
 TEMPLATE = app
