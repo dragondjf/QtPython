@@ -8,31 +8,31 @@ from logging import RootLogger
 
 
 def debug(*args):
-    messages = [unicode(arg) for arg in args]
+    messages = [arg.encode("utf-8") for arg in args]
     ret = " ".join(messages)
     qtlogger.debug(ret)
 
 
 def info(*args):
-    messages = [unicode(arg) for arg in args]
+    messages = [arg.encode("utf-8") for arg in args]
     ret = " ".join(messages)
     qtlogger.info(ret)
 
 
 def warning(*args):
-    messages = [unicode(arg) for arg in args]
+    messages = [arg.encode("utf-8") for arg in args]
     ret = " ".join(messages)
     qtlogger.warning(ret)
 
 
 def error(*args):
-    messages = [unicode(arg) for arg in args]
+    messages = [arg.encode("utf-8") for arg in args]
     ret = " ".join(messages)
     qtlogger.error(ret)
 
 
 def fatal(*args):
-    messages = [unicode(arg) for arg in args]
+    messages = [arg.encode("utf-8") for arg in args]
     ret = " ".join(messages)
     qtlogger.fatal(ret)
 
@@ -46,6 +46,9 @@ class QtPythonRootLogger(RootLogger):
             fmtMessage = self.handlers[0].formatter.format(record)
         else:
             fmtMessage = unicode(record)
+        if isinstance(fmtMessage, str):
+            fmtMessage = fmtMessage.decode("utf-8")
+
         if record.levelno == logging.DEBUG:
             debug(fmtMessage)
         elif record.levelno == logging.INFO:
@@ -68,7 +71,7 @@ logger = logging.root
 logger.propagate = 0
 logger.addHandler(ch)
 
-logger.info("======1=======")
+logger.info(u"======1dsdssddddd试试手sddssdsdsdsdsdsd=======")
 
 
 def test_base(a1, a2, a3):
@@ -80,7 +83,7 @@ def returnJson(args):
     logger.warning(args)
     obj = {"a1": "a1", "a2": "a2", "a3": "a3", "a4": "a4"}
     ret = json.dumps(obj)
-    logger.error("dssssssssssssssss")
+    logger.error("dssssssssss111111111111111111111111111ssssss")
     return ret
 
 
