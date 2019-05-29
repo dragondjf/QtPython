@@ -576,7 +576,7 @@ struct pytype_traits_t<const T*>
         PyObject *pName = NULL, *pModule = NULL, *pValue = NULL;
 
         if (class_name.empty())
-            return pytype_traits_t<long>::pyobj_from_cppobj(long(val_));
+            return pytype_traits_t::pyobj_from_cppobj(val_);
 
         pName   = PyString_FromString(mod_name.c_str());
         pModule = PyImport_Import(pName);
