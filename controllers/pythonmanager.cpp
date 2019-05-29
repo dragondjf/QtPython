@@ -166,8 +166,7 @@ void PythonManager::testCallRetunJson()
 
 void PythonManager::testRegisterClass()
 {
-    PyObjectController::registerToPython(*m_ffpython2);
-    m_ffpython2->init("QtCore2");
+    PyObjectController::registerToPython(*m_ffpython);
     SignalManager::registerToPython(*m_ffpython);
     m_ffpython->init("QtCore");
     m_ffpython->set_global_var("QtCore", "pyobjInstance", PyObjectController::instance(100));

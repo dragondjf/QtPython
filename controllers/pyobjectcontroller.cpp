@@ -43,6 +43,7 @@ PyObjectController *PyObjectController::getInstance(int v)
 
 void PyObjectController::setObj(int obj)
 {
+    qDebug() << obj << this;
     m_obj = obj;
 }
 
