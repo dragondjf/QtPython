@@ -41,10 +41,8 @@ void LogManager::initRollingFileAppender(){
 }
 
 void LogManager::debug_log_console_on(){
-    #if !defined(QT_NO_DEBUG)
     LogManager::instance()->initConsoleAppender();
     LogManager::instance()->initPythonCategoryAppender();
-    #endif
     LogManager::instance()->initRollingFileAppender();
 }
 
