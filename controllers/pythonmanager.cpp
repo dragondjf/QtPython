@@ -9,7 +9,7 @@
 #include "Logger.h"
 #include "pyobjectcontroller.h"
 #include "app/signalmanager.h"
-
+#include "../ffpython/ffpython.h"
 
 
 PythonManager::PythonManager(QObject *parent) :
@@ -17,7 +17,6 @@ PythonManager::PythonManager(QObject *parent) :
 {
     initPython();
     m_ffpython = new ffpython_t;
-    m_ffpython2 = new ffpython_t;
     registerLogger();
     testGetGlobalVar();
     testSetGlobalVar();
@@ -52,13 +51,6 @@ void PythonManager::registerLogger()
     m_ffpython->reg(&PythonManager::error, "error");
     m_ffpython->reg(&PythonManager::fatal, "fatal");
     m_ffpython->init("qtlogger", "use qDebug in python");
-
-    m_ffpython2->reg(&PythonManager::debug, "debug");
-    m_ffpython2->reg(&PythonManager::info, "info");
-    m_ffpython2->reg(&PythonManager::warning, "warning");
-    m_ffpython2->reg(&PythonManager::error, "error");
-    m_ffpython2->reg(&PythonManager::fatal, "fatal");
-    m_ffpython2->init("qtlogger", "use qDebug in python");
 }
 
 int PythonManager::debug(const string &val_1)

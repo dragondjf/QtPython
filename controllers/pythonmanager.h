@@ -3,7 +3,10 @@
 
 #include <QObject>
 #include <QJsonObject>
-#include "../thirdparty/ffpython/ffpython.h"
+
+using namespace std;
+
+class ffpython_t;
 
 class PythonManager : public QObject
 {
@@ -33,7 +36,6 @@ public slots:
 
 private:
     ffpython_t* m_ffpython=NULL;
-    ffpython_t* m_ffpython2=NULL;
 };
 
 #endif // PYTHONMANAGER_H

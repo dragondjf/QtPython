@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import json
+import sys
 from log import logger
 
 
+logger.info(sys.path)
 logger.info(u"======1dsdssddddd试试手sddssdsdsdsdsdsd=======")
 
 
@@ -39,6 +41,7 @@ def testClass():
 
     try:
         from QtCore import signalManager, pyobjInstance, PyObjectController
+        # signalManager.requestObjChanged.connect(testSignal)
         pyobj1 = PyObjectController(10, None)
         logger.info(dir(signalManager))
         logger.info(dir(pyobjInstance))
@@ -46,8 +49,14 @@ def testClass():
         logger.info(pyobj1)
         logger.info(pyobjInstance)
 
+        logger.info(pyobjInstance.getInstance(5).getObj())
+        logger.info(pyobjInstance.getInstance(6).getObj())
+
         signalManager.requestObjChanged(11150000)
         
         logger.info(pyobjInstance.getObj())
     except Exception, e:
         logger.info(e)
+
+def testSignal(a):
+    logger.info(a)
