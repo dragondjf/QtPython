@@ -18,7 +18,7 @@ class ffpython_t
         reg_info_t():args_num(0),option_args_num(0),func_addr(0){}
         int  args_num;
         int  option_args_num;
-        long func_addr;
+        long long func_addr;
         PyCFunction func;
         string func_name;
         string func_impl_name;
@@ -55,7 +55,7 @@ public:
         tmp.func_impl_name = func_name_ + "_internal_";
         tmp.doc      = doc_;
         tmp.doc_impl = string("internal use, please call ") + func_name_;
-        tmp.func_addr= (long)func_;
+        tmp.func_addr= (long long)func_;
         
         m_func_info.push_back(tmp);
         return *this;

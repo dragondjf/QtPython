@@ -12,6 +12,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 win32 {
     INCLUDEPATH += C:/Python27/include
     LIBS += "C:/Python27/libs/libpython27.a"
+
+    DEFINES += MS_WIN64
 }
 unix {
     PKGCONFIG += python-2.7
