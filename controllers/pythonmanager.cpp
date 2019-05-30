@@ -11,16 +11,12 @@
 #include "app/signalmanager.h"
 #include "../ffpython/ffpython.h"
 
-
 PythonManager::PythonManager(QObject *parent) :
     QObject(parent)
 {
     initPython();
     m_ffpython = new ffpython_t;
     registerLogger();
-    testGetGlobalVar();
-    testSetGlobalVar();
-    testCallModuleMethodNoArgs();
     testCallModuleMethodWidthArgs();
     testCallRetunJson();
     testRegisterClass();
@@ -86,12 +82,17 @@ int PythonManager::fatal(const string &val_1)
 QJsonObject PythonManager::callPythonApi(const string module, const string method, const string jsonArgs)
 {
     QJsonObject messageObj{};
-    string ret = m_ffpython->call<string>(module, method, jsonArgs);
-    qDebug() << ret.c_str();
-    QJsonParseError* error = new QJsonParseError();
-    messageObj = QJsonDocument::fromJson(QByteArray(ret.c_str()), error).object();
-    if (error->error != QJsonParseError::NoError){
-        qDebug() << error->errorString();
+
+    try{
+        string ret = m_ffpython->call<string>(module, method, jsonArgs);
+        qDebug() << ret.c_str();
+        QJsonParseError* error = new QJsonParseError();
+        messageObj = QJsonDocument::fromJson(QByteArray(ret.c_str()), error).object();
+        if (error->error != QJsonParseError::NoError){
+            qCritical() << error->errorString();
+        }
+    }catch(exception& e){
+        qCritical() << e.what();
     }
     return messageObj;
 }
@@ -104,6 +105,11 @@ QJsonObject PythonManager::callPythonApi(const char* module, const char* method,
 QJsonObject PythonManager::callPythonApi(const QString &module, const QString &method, const QString &jsonArgs)
 {
     return callPythonApi(module.toStdString(), method.toStdString(), jsonArgs.toStdString());
+}
+
+QJsonObject PythonManager::callPythonApi(const QString &module, const QString &method, const QJsonObject &obj)
+{
+    return callPythonApi(module, method, QString(QJsonDocument(obj).toJson()));
 }
 
 void PythonManager::testGetGlobalVar()
@@ -137,7 +143,12 @@ void PythonManager::testCallModuleMethodWidthArgs()
     vector<list<string> > a3;
     a3.push_back(a2);
 
-    m_ffpython->call<void>("main", "test_base", a1, a2, a3);
+    try {
+        int ret = m_ffpython->call<int>("main", "test_base", a1, a2, a3);
+        qDebug() << ret;
+    } catch(exception& e) {
+        qCritical() << e.what();
+    };
 }
 
 void PythonManager::testCallRetunJson()
@@ -151,9 +162,9 @@ void PythonManager::testCallRetunJson()
     a3.insert("b", a2);
     args.insert("a3", QJsonValue::fromVariant(a3));
     args.insert("a4", QJsonValue::fromVariant(a3));
-    QString jsonArgs = QString(QJsonDocument(args).toJson());
+
 //    qDebug() << jsonArgs;
-    callPythonApi("main", "returnJson", jsonArgs);
+    qDebug() << callPythonApi("main", "returnJson", args);
 }
 
 void PythonManager::testRegisterClass()
@@ -163,5 +174,10 @@ void PythonManager::testRegisterClass()
     m_ffpython->init("QtCore");
     m_ffpython->set_global_var("QtCore", "pyobjInstance", PyObjectController::instance(100));
     m_ffpython->set_global_var("QtCore", "signalManager", SignalManager::instance());
-    m_ffpython->call<void>("main", "testClass");
+    m_ffpython->set_global_var("QtCore", "signalManager1", SignalManager::instance());
+
+    m_ffpython->call<void>("main", "testClass", PyObjectController::instance(100));
+//    SignalManager::instance()->requestObjChanged(666);
+    qDebug() << PyObjectController::instance(100)->getObj();
+//    qDebug() << SignalManager::instance();
 }

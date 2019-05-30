@@ -15,5 +15,6 @@ SignalManager::~SignalManager()
 void SignalManager::registerToPython(ffpython_t &ffpython)
 {
     ffpython.reg_class<SignalManager, PYCTOR()>("SignalManager")
-            .reg(&SignalManager::requestObjChanged, "requestObjChanged");
+            .reg(&SignalManager::requestObjChanged, "requestObjChanged")
+            .reg(&SignalManager::requestJsonObjChanged, "requestJsonObjChanged");
 }

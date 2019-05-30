@@ -3,7 +3,6 @@
 #include "app/global.h"
 #include <QDebug>
 
-
 PyObjectController::PyObjectController(const int& v, QObject *parent) :
     QObject(parent),
     m_obj(v)
@@ -19,11 +18,11 @@ PyObjectController::~PyObjectController()
 void PyObjectController::registerToPython(ffpython_t& ffpython)
 {
     ffpython.reg_class<PyObjectController, PYCTOR(int)>("PyObjectController")
-                .reg(&PyObjectController::getObj, "getObj")
-                .reg(&PyObjectController::setObj, "setObj")
-                .reg(&PyObjectController::testStl, "testStl")
-                .reg(&PyObjectController::getInstance, "getInstance")
-                .reg_property(&PyObjectController::m_obj, "m_obj");
+            .reg(&PyObjectController::getObj, "getObj")
+            .reg(&PyObjectController::setObj, "setObj")
+            .reg(&PyObjectController::testStl, "testStl")
+            .reg(&PyObjectController::getInstance, "getInstance")
+            .reg_property(&PyObjectController::m_obj, "m_obj");
 }
 
 int PyObjectController::getObj()

@@ -24,6 +24,7 @@ public:
     QJsonObject callPythonApi(const string module, const string method, const string jsonArgs="");
     QJsonObject callPythonApi(const char* module, const char* method, const char* jsonArgs="");
     QJsonObject callPythonApi(const QString& module, const QString& method, const QString& jsonArgs="");
+    QJsonObject callPythonApi(const QString& module, const QString& method, const QJsonObject& obj = {});
     void testGetGlobalVar();
     void testSetGlobalVar();
     void testCallModuleMethodNoArgs();

@@ -1,7 +1,10 @@
 #ifndef SIGNALMANAGER_H
 #define SIGNALMANAGER_H
 
-#include <QObject>
+#include <QtCore>
+
+using namespace std;
+
 class ffpython_t;
 
 class SignalManager : public QObject
@@ -20,6 +23,7 @@ public:
 
 signals:
     void requestObjChanged(const int& v);
+    void requestJsonObjChanged(const string& v);
 };
 
 #endif // SIGNALMANAGER_H

@@ -19,9 +19,9 @@ public:
 
     static void registerToPython(ffpython_t& ffpython);
 
-    int getObj();
-    void testStl(int v);
-    PyObjectController* getInstance(int v);
+    Q_INVOKABLE int getObj();
+    Q_INVOKABLE void testStl(int v);
+    Q_INVOKABLE PyObjectController* getInstance(int v);
 
 signals:
 
